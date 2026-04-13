@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Especially Yours</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        background: #000;
+        font-family: 'Segoe UI', sans-serif;
+        color: white;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* 🌌 STARS */
+    .stars {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.4;
+    }
+
+    .star.active {
+        opacity: 1;
+        box-shadow: 0 0 6px white;
+    }
+
+    /* 🌙 SCENES */
+    .scene, .memory {
+        width: 100%;
+        max-width: 650px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hidden { display: none; }
+
+    h1 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: #ff4d6d;
+        margin-bottom: 15px;
+        opacity: 0;
+        animation: fadeIn 1.5s forwards;
+    }
+
+    p {
+        font-size: clamp(1rem, 3.5vw, 1.2rem);
+        line-height: 1.6;
+        margin-bottom: 25px;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+        animation-delay: 0.8s;
+    }
+
+    /* 💌 PS LINE */
+    #hidden {
+        margin-top: 20px;
+        opacity: 0;
+        transition: opacity 1s ease;
+        color: #ffd6dc;
+    }
+
+    .ps {
+        font-size: 0.85rem;
+        opacity: 0;
+        margin-top: 10px;
+        color: white;
+        transition: opacity 1s ease;
+    }
+
+    /* 🪐 VENUS */
+    .venus {
+        display: flex;
+        justify-content: center;
+    }
+
+    .venus button {
+        width: clamp(140px, 30vw, 180px);
+        height: clamp(140px, 30vw, 180px);
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+
+        background: radial-gradient(circle at 30% 30%,
+            #fff2d8 0%,
+            #f6d6a0 25%,
+            #e7b879 45%,
+            #d49a5b 65%,
+            #b06a3c 85%,
+            #6e3a28 100%
+        );
+
+        box-shadow:
+            0 0 20px rgba(255, 180, 120, 0.2),
+            0 0 50px rgba(255, 140, 90, 0.15);
+
+        color: white;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        animation: heartbeat 3s infinite ease-in-out;
+    }
+
+    /* 🎥 VIDEO */
+    .memory video {
+        width: 80%;
+        max-width: 380px;
+        border-radius: 15px;
+        margin-top: 10px;
+        box-shadow: 0 0 40px rgba(255, 100, 150, 0.2);
+    }
+
+    /* 📜 CAPTIONS */
+    .caption {
+        font-size: 1.2rem;
+        color: #ffd6dc;
+        line-height: 1.8;
+        margin-bottom: 15px;
+        direction: rtl;
+    }
+
+    .bottom-caption {
+        margin-top: 15px;
+        font-size: 1rem;
+        color: #ffd6dc;
+        line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- 🌙 MAIN -->
+<div class="scene" id="main">
+
+    <h1>Rouhe❤️</h1>
+
+    <p>
+        You were never meant to be understood…<br>
+        You were meant to be felt.<br>
+        And I feel you in everything.
+    </p>
+
+    <div class="venus">
+        <button id="venusBtn">
+            Let’s make this eternal
+        </button>
+    </div>
+
+    <div id="hidden">
+        Maybe that’s what you are to me…<br>
+        Something I was never supposed to explain<br>
+        only to feel.
+
+        <div class="ps" id="psLine">
+            ps: press at Venus again
+        </div>
+    </div>
+
+</div>
+
+<!-- 🎥 MEMORY -->
+<div class="memory hidden" id="memory">
+
+    <div class="caption">
+        كأن بين روحي وروحك عهدٌ قديم… نلتقي كل مرة كأننا لم نفترق.
+    </div>
+
+    <video controls>
+        <source src="pinky1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="bottom-caption">
+        Just like my princess said, pinky promise we're gonna get married.
+    </div>
+
+</div>
+
+<script>
+const starContainer = document.getElementById("stars");
+const stars = [];
+
+for (let i = 0; i < 140; i++) {
+    const s = document.createElement("div");
+    s.classList.add("star");
+
+    s.style.top = Math.random() * 100 + "%";
+    s.style.left = Math.random() * 100 + "%";
+
+    starContainer.appendChild(s);
+    stars.push(s);
+}
+
+function pulseStars() {
+    for (let i = 0; i < 10; i++) {
+        const star = stars[Math.floor(Math.random() * stars.length)];
+        star.classList.add("active");
+
+        setTimeout(() => star.classList.remove("active"), 600);
+    }
+}
+
+let clickCount = 0;
+
+document.getElementById("venusBtn").onclick = () => {
+    clickCount++;
+
+    document.getElementById("hidden").style.opacity = "1";
+    pulseStars();
+
+    if (clickCount === 1) {
+        setTimeout(() => {
+            document.getElementById("psLine").style.opacity = "0.4";
+        }, 300);
+    }
+
+    if (clickCount === 2) {
+        document.getElementById("main").classList.add("hidden");
+        document.getElementById("memory").classList.remove("hidden");
+
+        const video = document.querySelector("video");
+        if (video) video.play().catch(() => {});
+    }
+};
+</script>
+
+</body>
+</html>
